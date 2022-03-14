@@ -22,6 +22,10 @@ class ProductAdd extends React.Component {
 			Image: document.getElementById("image").value
 		}
 		this.props.addProduct(product);
+		document.getElementById("category").value = "";
+		document.getElementById("price").value = "";
+		document.getElementById("name").value = "";
+		document.getElementById("image").value = "";
 	}
 
 	render() {
@@ -33,6 +37,7 @@ class ProductAdd extends React.Component {
 					<div className="input-group">
 						<label htmlFor="category">Category:</label>
 						<select name="category" id="category">
+							<option value=""></option>
 							<option value="Accessories">Accessories</option>
 							<option value="Shirts">Shirts</option>
 							<option value="Jeans">Jeans</option>
