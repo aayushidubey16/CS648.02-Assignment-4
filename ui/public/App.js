@@ -5,7 +5,7 @@
 
 // eslint-disable-next-line react/prefer-stateless-function
 
-const BASE_URL = "http://localhost:4500";
+const BASE_URL = "http://localhost:3000";
 
 class ProductAdd extends React.Component {
 	constructor(props) {

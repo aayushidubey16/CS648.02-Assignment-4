@@ -1,3 +1,6 @@
+/* eslint linebreak-style: ["error", "windows"] */
+
+/* eslint no-restricted-globals: "off" */
 require('dotenv').config();
 
 const fs = require('fs');
@@ -5,11 +8,10 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { MongoClient } = require('mongodb');
 const http = require('http');
-const { ApolloServerPluginDrainHttpServer } = require  ('apollo-server-core');
-const { strict } = require('assert');
+const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 
 const client = new MongoClient(`mongodb+srv://aayushidubey16:${process.env.MONGO_PASS}@cluster0.nwuw7.mongodb.net/CS648-Assignment4`, {
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 let inventory; let
@@ -51,7 +53,6 @@ const resolvers = {
         Name,
         Image,
       };
-      
       const result = await inventory.insertOne(PRODUCT);
       const savedIssue = await inventory.findOne({ _id: result.insertedId });
       return savedIssue;
@@ -59,19 +60,23 @@ const resolvers = {
   },
 };
 
-async function startApolloServer(resolvers) {
-    const app = express();
-    const httpServer = http.createServer(app);
-    const server = new ApolloServer({
-      typeDefs: fs.readFileSync('./schema.graphql', 'utf-8'),
-      resolvers,
-      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    });
-  
-    await server.start();
-    server.applyMiddleware({ app });
-    await new Promise(resolve => httpServer.listen({ port: process.env.API_SERVER_PORT }, resolve));
-    console.log(`🚀 Server ready at http://localhost:${process.env.API_SERVER_PORT}`);
+/* eslint linebreak-style: "off" */
+
+async function startApolloServer() {
+  const app = express();
+  const httpServer = http.createServer(app);
+  const server = new ApolloServer({
+    typeDefs: fs.readFileSync('./schema.graphql', 'utf-8'),
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  });
+
+  await server.start();
+  server.applyMiddleware({ app });
+  await new Promise((resolve) => {
+    httpServer.listen({ port: process.env.API_SERVER_PORT }, resolve);
+  });
+  console.log(`🚀 Server ready at http://localhost:${process.env.API_SERVER_PORT}`);
 }
 
-startApolloServer(resolvers);
+startApolloServer();
